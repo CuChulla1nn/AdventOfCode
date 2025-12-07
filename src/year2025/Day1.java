@@ -18,11 +18,11 @@ public class Day1 {
         Path path = Path.of("src/year2025/files/input1.txt");
         List<String> inputList = ReadFile.readFileList(path);
 
-        for(String input : inputList){
+        for (String input : inputList) {
             char inputDirection = input.charAt(0);
             int number = Integer.parseInt(input.substring(1));
 
-            switch (inputDirection){
+            switch (inputDirection) {
                 case 'R' -> setDialPosition(number, true);
                 case 'L' -> setDialPosition(number, false);
                 default -> throw new IllegalStateException("Unexpected value: " + input);
@@ -33,35 +33,20 @@ public class Day1 {
         System.out.println("Count for part two is: " + (count + countPass));
     }
 
-    private void setDialPosition(int number, boolean add){
+    private void setDialPosition(int number, boolean add) {
         int start = started ? dial : 50;
-        int pass;
-
-        if(add){
+        if (add) {
             //clockwise - addition
             //calculate position
             int total = start + number;
             dial = total % 100;
-
-            //check for a pass (at least 100 steps)
-            pass = total / 100;
-            //if we stop on 0 we don't count it as pass
-            if (dial == 0 && pass > 0) {
-                pass--;
-            }
         } else {
             //counterclockwise - subtraction
             //reduce number by modulo to calculate dial position
             dial = (start - (number % 100) + 100) % 100;
-
-            //Check if we pass 0 (greater or equals 100)
-            pass = (number - start + 99) / 100;
         }
-
-        countPass += pass;
-
         //when stopping on 0 count +1
-        if(dial == 0){
+        if (dial == 0) {
             count++;
         }
     }
